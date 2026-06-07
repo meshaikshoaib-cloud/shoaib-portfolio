@@ -141,31 +141,63 @@ h1.hero-name em{color:var(--accent);font-style:normal}
 
 .hero-photo-inner{
     position:relative;
-    width:620px;      /* adjust */
-    height:880px;     /* adjust */
+    width:520px;
+    height:760px;
     overflow:hidden;
 }
 
 .hero-photo-inner img{
     width:100%;
     height:100%;
-    object-fit:contain;   /* keeps entire image visible */
+    object-fit:cover;
+    object-position:top center;
     display:block;
 }
 
 
-
-
-
-@media(max-width:1100px){
-  .hero-photo{
-    width:180px;right:40px
-  }
-  .hero-photo-inner{width:180px}
-  .hero-photo-inner img{width:180px;height:250px}
+@media(max-width:1200px){
+  .hero-photo-inner{width:440px;height:640px}
 }
-@media(max-width:900px){
-  .hero-photo{display:none}
+
+/* ── TABLET (iPad landscape + portrait) ── */
+@media(max-width:1100px){
+  /* Switch to stacked layout — photo on top, text below */
+  .hero{
+    min-height:100vh;
+    padding:0;
+    flex-direction:column;
+    justify-content:flex-start;
+    overflow:hidden;
+  }
+  .hero-photo{
+    position:relative;
+    top:auto;right:auto;
+    transform:none;
+    width:100%;
+    padding-top:80px;
+  }
+  .hero-photo-inner{
+    width:100%;
+    height:55vw;
+    min-height:320px;
+    max-height:560px;
+  }
+  .hero-photo-inner img{
+    object-fit:cover;
+    object-position:top center;
+    width:100%;
+    height:100%;
+  }
+  .photo-fade{
+    height:40%;
+    background:linear-gradient(to bottom,rgba(0,0,0,0) 0%,rgba(6,6,6,0.55) 55%,rgba(6,6,6,1) 100%);
+  }
+  .hero-eyebrow{padding:0 40px;margin-top:32px}
+  h1.hero-name{padding:0 40px;font-size:clamp(72px,14vw,150px)}
+  .hero-foot{flex-direction:column;gap:28px;align-items:flex-start;padding:0 40px 80px;margin-top:28px}
+  .hero-bio{max-width:540px;font-size:15px}
+  .hero-watermark{font-size:clamp(80px,20vw,200px)}
+  .hero-scroll-hint{display:none}
 }
 
 /* ── TICKER ── */
@@ -312,20 +344,116 @@ footer{
 .reveal-delay-4{transition-delay:.46s}
 
 /* ── RESPONSIVE ── */
-@media(max-width:900px){
-  nav{padding:20px 28px}
-  .nav-links{display:none}
-  section{padding:88px 28px}
-  .hero{padding:0 28px 72px}
-  .hero-foot{flex-direction:column;gap:32px;align-items:flex-start}
-  .about-grid{grid-template-columns:1fr;gap:48px}
-  .craft-grid{grid-template-columns:1fr 1fr}
-  .hero-scroll-hint{display:none}
-  footer{padding:24px 28px;flex-direction:column;gap:12px;text-align:center}
+
+/* Mobile nav hamburger */
+.nav-hamburger{
+  display:none;
+  flex-direction:column;justify-content:center;align-items:center;
+  width:40px;height:40px;gap:6px;cursor:pointer;background:none;border:none;padding:0
 }
+.nav-hamburger span{
+  display:block;width:24px;height:1.5px;background:var(--text);
+  transition:transform .3s,opacity .3s
+}
+.nav-hamburger.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+.nav-hamburger.open span:nth-child(2){opacity:0}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+
+.mobile-menu{
+  display:none;
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  background:rgba(6,6,6,.97);
+  z-index:400;
+  flex-direction:column;justify-content:center;align-items:center;gap:48px;
+}
+.mobile-menu.open{display:flex}
+.mobile-menu a{
+  font-family:'Bebas Neue',sans-serif;font-size:52px;letter-spacing:4px;
+  color:var(--text);text-decoration:none;transition:color .2s
+}
+.mobile-menu a:hover{color:var(--accent)}
+
+@media(max-width:900px){
+  /* cursor off on touch */
+  .cur,.cur-ring{display:none}
+  body{cursor:auto}
+  a,button,.work-card,.social,.btn{cursor:pointer}
+  .btn{cursor:pointer}
+  .social{cursor:pointer}
+
+  nav{padding:20px 24px}
+  .nav-links{display:none}
+  .nav-hamburger{display:flex}
+
+  /* Hero restructure for mobile — photo stacks above text */
+  .hero{
+    min-height:100vh;
+    padding:0;
+    flex-direction:column;
+    justify-content:flex-start;
+    overflow:hidden;
+  }
+
+  .hero-watermark{font-size:clamp(70px,28vw,160px)}
+
+  /* Photo becomes a full-width banner at top */
+  .hero-photo{
+    position:relative;
+    top:auto;right:auto;
+    transform:none;
+    width:100%;
+    padding-top:72px; /* clear the nav */
+  }
+  .hero-photo-inner{
+    width:100%;
+    height:72vw;
+    min-height:280px;
+    max-height:520px;
+  }
+  .hero-photo-inner img{
+    object-fit:cover;
+    object-position:top center;
+    width:100%;
+    height:100%;
+  }
+  .photo-fade{
+    height:35%;
+    background:linear-gradient(to bottom,rgba(0,0,0,0) 0%,rgba(6,6,6,0.5) 55%,rgba(6,6,6,1) 100%);
+  }
+
+  /* Text content below the photo */
+  .hero-eyebrow{
+    padding:0 24px;
+    margin-top:24px;
+  }
+  h1.hero-name{
+    font-size:clamp(64px,20vw,120px);
+    padding:0 24px;
+    letter-spacing:-2px;
+  }
+  .hero-foot{
+    flex-direction:column;gap:28px;align-items:flex-start;
+    padding:0 24px 72px;
+    margin-top:28px;
+  }
+  .hero-bio{max-width:100%;font-size:14px}
+
+  .hero-scroll-hint{display:none}
+
+  section{padding:72px 24px}
+  .about-grid{grid-template-columns:1fr;gap:40px}
+  .craft-grid{grid-template-columns:1fr 1fr}
+  footer{padding:24px 24px;flex-direction:column;gap:10px;text-align:center}
+  .stat-n{font-size:15px;line-height:1.3}
+}
+
 @media(max-width:520px){
   .craft-grid{grid-template-columns:1fr}
   .stats{grid-template-columns:1fr 1fr}
+  h1.hero-name{font-size:clamp(58px,18vw,100px)}
+  .hero-photo-inner{height:80vw;max-height:340px}
+  .btn{padding:15px 26px;font-size:10px}
+  .contact-big{font-size:clamp(54px,16vw,100px)}
 }
 </style>
 </head>
@@ -333,6 +461,14 @@ footer{
 
 <div class="cur" id="cur"></div>
 <div class="cur-ring" id="ring"></div>
+
+<!-- MOBILE MENU OVERLAY -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="#work" onclick="closeMobile()">Work</a>
+  <a href="#craft" onclick="closeMobile()">Craft</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+</div>
 
 <!-- NAV -->
 <nav id="nav">
@@ -343,6 +479,9 @@ footer{
     <li><a href="#craft">Craft</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu" onclick="toggleMobile()">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- HERO -->
@@ -549,22 +688,41 @@ footer{
 </footer>
 
 <script>
-// cursor
+// Mobile menu
+function toggleMobile(){
+  const menu=document.getElementById('mobileMenu');
+  const btn=document.getElementById('hamburger');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+  document.body.style.overflow=menu.classList.contains('open')?'hidden':'';
+}
+function closeMobile(){
+  const menu=document.getElementById('mobileMenu');
+  const btn=document.getElementById('hamburger');
+  menu.classList.remove('open');
+  btn.classList.remove('open');
+  document.body.style.overflow='';
+}
+
+// cursor (desktop only)
+const isTouchDevice=('ontouchstart' in window)||navigator.maxTouchPoints>0;
 const cur=document.getElementById('cur'),ring=document.getElementById('ring');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{
-  mx=e.clientX;my=e.clientY;
-  cur.style.cssText=`left:${mx-4}px;top:${my-4}px`;
-});
-(function lerp(){
-  rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
-  ring.style.cssText=`left:${rx-18}px;top:${ry-18}px`;
-  requestAnimationFrame(lerp);
-})();
-document.querySelectorAll('a,button,.work-card').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{cur.style.transform='scale(2.2)';ring.style.transform='scale(1.6)'});
-  el.addEventListener('mouseleave',()=>{cur.style.transform='';ring.style.transform=''});
-});
+if(!isTouchDevice && cur && ring){
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX;my=e.clientY;
+    cur.style.cssText=`left:${mx-4}px;top:${my-4}px`;
+  });
+  (function lerp(){
+    rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
+    ring.style.cssText=`left:${rx-18}px;top:${ry-18}px`;
+    requestAnimationFrame(lerp);
+  })();
+  document.querySelectorAll('a,button,.work-card').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{cur.style.transform='scale(2.2)';ring.style.transform='scale(1.6)'});
+    el.addEventListener('mouseleave',()=>{cur.style.transform='';ring.style.transform=''});
+  });
+}
 
 // nav
 const nav=document.getElementById('nav');
